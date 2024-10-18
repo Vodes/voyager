@@ -64,9 +64,7 @@ public fun Navigator(
     require(screens.isNotEmpty()) { "Navigator must have at least one screen" }
     require(key.isNotEmpty()) { "Navigator key can't be empty" }
 
-    CompositionLocalProvider(
-        LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
-    ) {
+    ConditionalLocalNavigationStateHolderCompositionLocalProvider {
         val navigator = rememberNavigator(screens, key, disposeBehavior, LocalNavigator.current)
 
         if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
@@ -177,3 +175,18 @@ public data class NavigatorDisposeBehavior(
 public fun compositionUniqueId(): String = currentCompositeKeyHash.toString(MaxSupportedRadix)
 
 private val MaxSupportedRadix = 36
+
+@Composable
+private fun ConditionalLocalNavigationStateHolderCompositionLocalProvider(content: @Composable () -> Unit) {
+    val navigatorStateHolder = LocalNavigatorStateHolder.current
+
+    if (navigatorStateHolder == null) {
+        CompositionLocalProvider(
+            LocalNavigatorStateHolder provides rememberSaveableStateHolder(),
+        ) {
+            content()
+        }
+    } else {
+        content()
+    }
+}
