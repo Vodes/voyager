@@ -18,14 +18,6 @@ plugins {
 }
 
 apiValidation {
-    with(ignoredProjects) {
-        add(projects.samples.android)
-        add(projects.samples.multiplatform)
-        add(projects.samples.multiModule.app)
-        add(projects.samples.multiModule.featureHome)
-        add(projects.samples.multiModule.featurePosts)
-        add(projects.samples.multiModule.navigation)
-    }
     with(nonPublicMarkers) {
         add("cafe.adriel.voyager.core.annotation.InternalVoyagerApi")
     }
