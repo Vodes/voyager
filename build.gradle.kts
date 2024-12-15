@@ -31,4 +31,14 @@ apiValidation {
     }
 }
 
+allprojects {
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.jetbrains.kotlinx" && requested.name == "atomicfu") {
+                useVersion("0.25.0")
+            }
+        }
+    }
+}
+
 fun MutableSet<String>.add(dependency: DelegatingProjectDependency) = add(dependency.name)

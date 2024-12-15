@@ -4,7 +4,7 @@ kotlin = "2.1.0"
 mavenPublish = "0.30.0"
 composeMultiplatform = "1.7.1"
 binaryCompatibilityValidator = "0.16.3"
-atomicfu = "0.26.1"
+atomicfu = "0.25.0"
 
 ktlint = "12.1.2"
 coroutines = "1.9.0"

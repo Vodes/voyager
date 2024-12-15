@@ -1,0 +1,29 @@
+name: "Publish snapshot to styx repo"
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    env:
+      STYX_REPO_TOKEN: ${{ secrets.STYX_REPO_TOKEN }}
+      STYX_REPO_SECRET: ${{ secrets.STYX_REPO_SECRET }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: "Setup JDK"
+        id: setup-java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Set commit env variable
+        run: echo "SNAPSHOT_COMMIT=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+      - name: "Build and publish library"
+        env:
+          JAVA_HOME: ${{ steps.setup-java.outputs.path }}
+        run: |
+          chmod u+x ./gradlew
+          ./gradlew publishAllPublicationsToStyxRepository -Pversion=${{ env.SNAPSHOT_COMMIT }} -Dorg.gradle.parallel=false --stacktrace --no-configuration-cache
