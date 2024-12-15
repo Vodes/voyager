@@ -26,4 +26,4 @@ jobs:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
         run: |
           chmod u+x ./gradlew
-          ./gradlew publishAllPublicationsToStyxRepository -Pversion=${{ env.SNAPSHOT_COMMIT }} -Dorg.gradle.parallel=false --stacktrace --no-configuration-cache
+          ./gradlew publishMavenPublicationToStyxRepository publishDesktopPublicationToStyxRepository publishAndroidReleasePublicationToStyxRepository -Pversion=${{ env.SNAPSHOT_COMMIT }} -Dorg.gradle.parallel=false --stacktrace --no-configuration-cache
