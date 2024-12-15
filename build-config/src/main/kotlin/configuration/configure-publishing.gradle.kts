@@ -4,6 +4,7 @@ import extensions.isMultiplatformModule
 import extensions.kotlinMultiplatform
 
 pluginManager.apply("com.vanniktech.maven.publish")
+pluginManager.apply("maven-publish")
 
 if (isMultiplatformModule()) {
     kotlinMultiplatform {
@@ -13,16 +14,13 @@ if (isMultiplatformModule()) {
     }
 }
 
-group = "cafe.adriel.voyager"
+group = "moe.styx.forks.voyager"
+
 
 configure<MavenPublishBaseExtension> {
-    publishToMavenCentral(host = SonatypeHost.S01, automaticRelease = true)
-    signAllPublications()
-
     pom {
         description = "A pragmatic navigation library for Jetpack Compose"
         inceptionYear = "2021"
-        url = "https://github.com/adrielcafe/voyager"
 
         licenses {
             license {
@@ -31,18 +29,23 @@ configure<MavenPublishBaseExtension> {
                 distribution = "repo"
             }
         }
+    }
+}
 
-        scm {
-            url = "https://github.com/adrielcafe/voyager"
-            connection = "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
-            developerConnection = "scm:git:ssh://git@github.com/adrielcafe/voyager.git"
-        }
-
-        developers {
-            developer {
-                id = "adrielcafe"
-                name = "Adriel Cafe"
-                url = "https://github.com/adrielcafe/"
+configure<PublishingExtension> {
+    repositories {
+        maven {
+            name = "Styx"
+            url = if (version.toString().contains("-SNAPSHOT", true))
+                uri("https://repo.styx.moe/snapshots")
+            else
+                uri("https://repo.styx.moe/releases")
+            credentials {
+                username = System.getenv("STYX_REPO_TOKEN")
+                password = System.getenv("STYX_REPO_SECRET")
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
             }
         }
     }
