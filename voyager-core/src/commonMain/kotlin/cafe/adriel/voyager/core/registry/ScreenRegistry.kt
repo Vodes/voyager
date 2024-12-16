@@ -1,8 +1,8 @@
 package cafe.adriel.voyager.core.registry
 
-import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.platform.multiplatformName
 import cafe.adriel.voyager.core.screen.Screen
+import co.touchlab.stately.collections.ConcurrentMutableMap
 import kotlin.reflect.KClass
 
 private typealias ProviderKey = KClass<out ScreenProvider>
@@ -12,7 +12,7 @@ private typealias ScreenFactory = (ScreenProvider) -> Screen
 public object ScreenRegistry {
 
     @PublishedApi
-    internal val factories: ThreadSafeMap<ProviderKey, ScreenFactory> = ThreadSafeMap()
+    internal val factories: ConcurrentMutableMap<ProviderKey, ScreenFactory> = ConcurrentMutableMap()
 
     public operator fun invoke(block: ScreenRegistry.() -> Unit) {
         this.block()

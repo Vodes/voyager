@@ -1,15 +1,15 @@
 package cafe.adriel.voyager.core.lifecycle
 
-import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
+import co.touchlab.stately.collections.ConcurrentMutableMap
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
 public object ScreenLifecycleStore {
 
-    private val owners = ThreadSafeMap<ScreenKey, ScreenLifecycleOwner>()
-    private val newOwners = ThreadSafeMap<ScreenKey, ThreadSafeMap<KType, ScreenDisposable>>()
+    private val owners = ConcurrentMutableMap<ScreenKey, ScreenLifecycleOwner>()
+    private val newOwners = ConcurrentMutableMap<ScreenKey, ConcurrentMutableMap<KType, ScreenDisposable>>()
 
     /**
      * Get current for screen or register a ScreenDisposable resulted by
@@ -47,7 +47,7 @@ public object ScreenLifecycleStore {
         factory: (ScreenKey) -> T
     ): ScreenDisposable {
         return newOwners.getOrPut(screen.key) {
-            ThreadSafeMap<KType, ScreenDisposable>().apply {
+            ConcurrentMutableMap<KType, ScreenDisposable>().apply {
                 put(screenDisposeListenerType, factory(screen.key))
             }
         }.getOrPut(screenDisposeListenerType) {

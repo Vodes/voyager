@@ -17,6 +17,8 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(libs.coroutines.core)
+            api(libs.stately.concurrency)
+            api(libs.stately.collections)
         }
         jvmTest.dependencies {
             implementation(libs.junit.api)

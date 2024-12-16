@@ -1,15 +1,15 @@
 package cafe.adriel.voyager.core.lifecycle
 
-import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
-import cafe.adriel.voyager.core.concurrent.ThreadSafeSet
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
+import co.touchlab.stately.collections.ConcurrentMutableMap
+import co.touchlab.stately.collections.ConcurrentMutableSet
 
 internal object LifecycleEffectStore : ScreenDisposable {
-    private val executedLifecycles = ThreadSafeMap<ScreenKey, ThreadSafeSet<LifecycleEffectOnceScope>>()
+    private val executedLifecycles = ConcurrentMutableMap<ScreenKey, ConcurrentMutableSet<LifecycleEffectOnceScope>>()
 
     fun store(screen: Screen, effectKey: String): LifecycleEffectOnceScope {
-        val set = executedLifecycles.getOrPut(screen.key) { ThreadSafeSet() }
+        val set = executedLifecycles.getOrPut(screen.key) { ConcurrentMutableSet() }
         val scope = LifecycleEffectOnceScope(uniqueKey = effectKey, set.size + 1)
         set.add(scope)
 

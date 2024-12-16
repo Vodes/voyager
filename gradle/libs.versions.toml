@@ -14,6 +14,7 @@ hilt = "2.52"
 lifecycle = "2.8.7"
 activityCompose = "1.9.3"
 rxjava = "3.1.10"
+stately = "2.1.0"
 
 androidxKmp-bundle = "1.0.1"
 androidxKmp-lifecycle = "2.8.4"
@@ -27,16 +28,14 @@ pluginartifact-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", 
 pluginartifact-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint" }
 pluginartifact-mavenPublish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
 # Libraries
+stately-concurrency = { module = "co.touchlab:stately-concurrency", version.ref = "stately" }
+stately-collections = { module = "co.touchlab:stately-concurrent-collections", version.ref = "stately" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-savedState = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
 androidx-lifecycle-viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 

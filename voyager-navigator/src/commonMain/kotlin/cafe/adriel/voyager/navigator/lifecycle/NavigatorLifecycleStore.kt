@@ -1,7 +1,7 @@
 package cafe.adriel.voyager.navigator.lifecycle
 
-import cafe.adriel.voyager.core.concurrent.ThreadSafeMap
 import cafe.adriel.voyager.navigator.Navigator
+import co.touchlab.stately.collections.ConcurrentMutableMap
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
@@ -9,7 +9,7 @@ public typealias NavigatorKey = String
 
 public object NavigatorLifecycleStore {
 
-    private val owners = ThreadSafeMap<NavigatorKey, ThreadSafeMap<KType, NavigatorDisposable>>()
+    private val owners = ConcurrentMutableMap<NavigatorKey, ConcurrentMutableMap<KType, NavigatorDisposable>>()
 
     /**
      * Register a NavigatorDisposable that will be called `onDispose` on the
@@ -29,7 +29,7 @@ public object NavigatorLifecycleStore {
         factory: (NavigatorKey) -> T
     ): NavigatorDisposable {
         return owners.getOrPut(navigator.key) {
-            ThreadSafeMap<KType, NavigatorDisposable>().apply {
+            ConcurrentMutableMap<KType, NavigatorDisposable>().apply {
                 put(screenDisposeListenerType, factory(navigator.key))
             }
         }.getOrPut(screenDisposeListenerType) {
