@@ -12,6 +12,51 @@
 
 A multiplatform navigation library built for, and seamlessly integrated with, [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
+-----
+
+## Fork
+This fork serves to provide a newer version based on newer Compose/Kotlin versions.<br>
+A couple of android-specific modules (Screenmodel-Hilt, LiveData, Kodein) have been removed due to trouble with building and because I don't see a place for them in a kmp project.
+
+There may be a couple of bug fixes, most probably lifted out of existing PRs on the main repo.
+
+- Partially implements [this PR](https://github.com/adrielcafe/voyager/pull/514) by dzmpr to have a much saner project structure.
+- Downgraded back down to Kotlin 2.0.21 mostly because that's what I currently need.
+- Replaced the voyager internal `ThreadSafe*` classes with [stately](https://github.com/touchlab/Stately/) implementations.<br>
+  Because K/N still seems to randomly hallucinate issues when implementing an abstract class via `expect`.
+
+### How to use this fork
+I don't intend on changing the user facing API in any way if at all possible so the regular docs apply.
+
+Note that this does not mean that this fork is stable and will be safe to use at all times.<br>
+Use at your own risk.
+
+I can't be arsed to setup sonatype so the builds can be found on my own repo.
+
+```kotlin
+repositories {
+    /* ... */
+    maven("https://repo.styx.moe/releases")
+    maven("https://repo.styx.moe/snapshots") // There are currently no tags so auto-build snapshots are the only thing
+}
+
+// Common-Main if applicable
+dependencies {
+    /* ... */
+    implementation("moe.styx.forks.voyager:<module>:<version>")
+  
+    /* e. g. */
+    implementation("moe.styx.forks.voyager:voyager-navigator:1100cae1")
+    implementation("moe.styx.forks.voyager:voyager-transitions:1100cae1")
+    implementation("moe.styx.forks.voyager:voyager-screenmodel:1100cae1")
+    implementation("moe.styx.forks.voyager:voyager-tab-navigator:1100cae1")
+    implementation("moe.styx.forks.voyager:voyager-bottom-sheet-navigator:1100cae1")
+}
+
+```
+
+-----
+
 Create scalable Single-Activity apps powered by a [pragmatic API](https://voyager.adriel.cafe/navigation):
 
 ```kotlin
